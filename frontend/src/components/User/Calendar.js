@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
   fetchCommunications,
   deleteCommunication,
-  deleteCompany,
+
 } from "../../services/api";
 import { Modal, Button, Form } from "react-bootstrap";
 
