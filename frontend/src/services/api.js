@@ -1,7 +1,7 @@
 // Set API_URL dynamically based on environment
 const API_URL =
   process.env.NODE_ENV === "production"
-    ? "https://cal-app-bknd-smoky.vercel.app/api/" // Production backend URL
+    ? "https://cal-app-bknd-smoky.vercel.app/api" // Production backend URL
     : "http://localhost:5000/api"; // Local backend URL for development
 
 // Helper function to handle fetch requests
