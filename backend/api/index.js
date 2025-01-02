@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const companyRoutes = require("./routes/companies");
-const communicationRoutes = require("./routes/communications");
-const methodRoutes = require("./routes/communicationMethods");
-const reportRoutes = require("./routes/reports");
+const companyRoutes = require("../routes/companies");
+const communicationRoutes = require("../routes/communications");
+const methodRoutes = require("../routes/communicationMethods");
+const reportRoutes = require("../routes/reports");
 
 const app = express();
 
