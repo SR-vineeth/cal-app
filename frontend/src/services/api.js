@@ -23,7 +23,7 @@ const handleFetch = async (url, options = {}) => {
 
 // Fetch all companies
 export const fetchCompanies = async () => {
-  return await handleFetch("/companies"); // No 'api/' needed here
+  return await handleFetch("api/companies"); // No 'api/' needed here
 };
 
 // Save a new company
