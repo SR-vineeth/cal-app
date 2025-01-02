@@ -4,23 +4,22 @@ const cors = require("cors");
 require("dotenv").config();
 
 // Import routes
-const companyRoutes = require("./routes/companies");
-const communicationRoutes = require("./routes/communications");
-const methodRoutes = require("./routes/communicationMethods");
-const reportRoutes = require("./routes/reports"); // Import reports route
+const companyRoutes = require("../routes/companies");
+const communicationRoutes = require("../routes/communications");
+const methodRoutes = require("../routes/communicationMethods");
+const reportRoutes = require("../routes/reports"); // Import reports route
 
 const app = express();
 
 // Middleware for CORS
 const corsOptions = {
-  origin: process.env.NODE_ENV === "production"
-    ? "https://cal-app-six.vercel.app" // Replace with your production frontend URL
-    : "http://localhost:3000", // Local development URL
+  origin: process.env.NODE_ENV === "production" 
+    ? "https://cal-app-six.vercel.app/"  // Replace with your production frontend URL
+    : "http://localhost:3000" ,  // Local development URL
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // Allow credentials if needed
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); // Use dynamic CORS based on environment
 app.use(express.json());
 
 // MongoDB Connection
@@ -53,11 +52,9 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 // Export the app for Vercel or other serverless platforms
 module.exports = app;
