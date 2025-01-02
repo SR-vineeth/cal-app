@@ -15,7 +15,7 @@ const app = express();
 const corsOptions = {
   origin: process.env.NODE_ENV === "production" 
     ? "https://cal-app-fh2c.vercel.app/"  // Replace with your production frontend URL
-    : "http://localhost:3000",  // Local development URL
+    : "http://localhost:3000" ,  // Local development URL
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
