@@ -4,10 +4,10 @@ const cors = require("cors");
 require("dotenv").config();
 
 // Import routes
-const companyRoutes = require("./routes/companies");
-const communicationRoutes = require("./routes/communications");
-const methodRoutes = require("./routes/communicationMethods");
-const reportRoutes = require("./routes/reports"); // Import reports route
+const companyRoutes = require("../routes/companies");
+const communicationRoutes = require("../routes/communications");
+const methodRoutes = require("../routes/communicationMethods");
+const reportRoutes = require("../routes/reports"); // Import reports route
 
 const app = express();
 
