@@ -3,23 +3,25 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-// Import routes
-const companyRoutes = require("../routes/companies");
-const communicationRoutes = require("../routes/communications");
-const methodRoutes = require("../routes/communicationMethods");
-const reportRoutes = require("../routes/reports"); // Import reports route
+const companyRoutes = require("./routes/companies");
+const communicationRoutes = require("./routes/communications");
+const methodRoutes = require("./routes/communicationMethods");
+const reportRoutes = require("./routes/reports");
 
 const app = express();
 
 // Middleware for CORS
 const corsOptions = {
-  origin: process.env.NODE_ENV === "production" 
-    ? "https://cal-app-six.vercel.app/"  // Replace with your production frontend URL
-    : "http://localhost:3000" ,  // Local development URL
+  origin: [
+    "https://cal-app-six.vercel.app", // Production frontend URL
+    "http://localhost:3000", // Local development frontend URL
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"], // Add allowed headers
+  credentials: true, // Allow cookies or authorization headers
 };
 
-app.use(cors(corsOptions)); // Use dynamic CORS based on environment
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // MongoDB Connection
@@ -32,9 +34,9 @@ mongoose
 app.use("/api/companies", companyRoutes);
 app.use("/api/communications", communicationRoutes);
 app.use("/api/communication-methods", methodRoutes);
-app.use("/api/reports", reportRoutes); // Add reports route
+app.use("/api/reports", reportRoutes);
 
-// Root Route (for testing if the backend is running)
+// Root Route
 app.get("/", (req, res) => {
   res.send("Backend is running and ready!");
 });
@@ -52,9 +54,10 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
-// Export the app for Vercel or other serverless platforms
 module.exports = app;
