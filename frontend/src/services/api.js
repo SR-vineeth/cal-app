@@ -7,7 +7,10 @@ const API_URL =
 // Helper function to handle fetch requests
 const handleFetch = async (url, options = {}) => {
   try {
-    const response = await fetch(url, options);
+    // Use URL object to ensure the URL is correctly combined
+    const finalUrl = new URL(url, API_URL); // Combines API_URL with endpoint without double slashes
+    const response = await fetch(finalUrl.toString(), options);
+
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
@@ -20,12 +23,12 @@ const handleFetch = async (url, options = {}) => {
 
 // Fetch all companies
 export const fetchCompanies = async () => {
-  return await handleFetch(`${API_URL}/companies`);
+  return await handleFetch("/companies");
 };
 
 // Save a new company
 export const saveCompany = async (company) => {
-  return await handleFetch(`${API_URL}/companies`, {
+  return await handleFetch("/companies", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(company),
@@ -34,17 +37,17 @@ export const saveCompany = async (company) => {
 
 // Delete a company by ID
 export const deleteCompany = async (id) => {
-  await handleFetch(`${API_URL}/companies/${id}`, { method: "DELETE" });
+  await handleFetch(`/companies/${id}`, { method: "DELETE" });
 };
 
 // Fetch all communications
 export const fetchCommunications = async () => {
-  return await handleFetch(`${API_URL}/communications`);
+  return await handleFetch("/communications");
 };
 
 // Log a new communication
 export const logCommunication = async (comm) => {
-  return await handleFetch(`${API_URL}/communications`, {
+  return await handleFetch("/communications", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(comm),
@@ -53,17 +56,17 @@ export const logCommunication = async (comm) => {
 
 // Delete a communication by ID
 export const deleteCommunication = async (id) => {
-  await handleFetch(`${API_URL}/communications/${id}`, { method: "DELETE" });
+  await handleFetch(`/communications/${id}`, { method: "DELETE" });
 };
 
 // Fetch all communication methods
 export const fetchMethods = async () => {
-  return await handleFetch(`${API_URL}/communication-methods`);
+  return await handleFetch("/communication-methods");
 };
 
 // Save a new communication method
 export const saveMethod = async (method) => {
-  return await handleFetch(`${API_URL}/communication-methods`, {
+  return await handleFetch("/communication-methods", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(method),
@@ -72,12 +75,12 @@ export const saveMethod = async (method) => {
 
 // Delete a communication method by ID
 export const deleteMethod = async (id) => {
-  await handleFetch(`${API_URL}/communication-methods/${id}`, { method: "DELETE" });
+  await handleFetch(`/communication-methods/${id}`, { method: "DELETE" });
 };
 
 // Fetch report data with filters
 export const fetchReportData = async (filters) => {
-  return await handleFetch(`${API_URL}/reports/data`, {
+  return await handleFetch("/reports/data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(filters),
