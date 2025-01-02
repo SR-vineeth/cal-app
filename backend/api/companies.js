@@ -1,46 +1,14 @@
+// api/companies.js
 const express = require("express");
-const Company = require("../models/company");
-const Communication = require("../models/communication"); // Include the communication model
+const companiesRoutes = require("../routes/companies");
 
-const router = express.Router();
+const app = express();
 
-// Get all companies
-router.get("/", async (req, res) => {
-  const companies = await Company.find();
-  res.json(companies);
-});
+// Ensure any necessary middleware (e.g., express.json) is included
+app.use(express.json()); // If you're using JSON data in requests
 
-// Add a company
-router.post("/", async (req, res) => {
-  const newCompany = new Company(req.body);
-  const savedCompany = await newCompany.save();
-  res.json(savedCompany);
-});
+// Use the imported route handler
+app.use("/api/companies", companiesRoutes);
 
-// Update a company
-router.put("/:id", async (req, res) => {
-  const updatedCompany = await Company.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-  res.json(updatedCompany);
-});
-
-// Delete a company and its related communications
-router.delete("/:id", async (req, res) => {
-  try {
-    // Delete the company
-    await Company.findByIdAndDelete(req.params.id);
-
-    // Delete all communications related to the company
-    await Communication.deleteMany({ company: req.params.id });
-
-    res.json({ message: "Company and related communications deleted" });
-  } catch (error) {
-    console.error("Error deleting company and related communications:", error);
-    res.status(500).json({ message: "Error deleting company and related communications" });
-  }
-});
-
-module.exports = router;
+// Export for Vercel
+module.exports = (req, res) => app(req, res);
