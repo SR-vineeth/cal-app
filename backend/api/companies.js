@@ -1,11 +1,6 @@
-// api/companies.js
-const express = require("express");
 const mongoose = require("mongoose");
 const companiesRoutes = require("../routes/companies");
 
-const app = express();
-
-// MongoDB connection setup with caching to avoid multiple connections
 let cachedDb = null;
 
 const connectToDatabase = async () => {
@@ -22,21 +17,27 @@ const connectToDatabase = async () => {
   return cachedDb;
 };
 
-app.use(express.json()); // Use JSON parser middleware
-
-// Use the imported route handler
-app.use("/api/companies", companiesRoutes);
-
-// MongoDB connection before handling requests
-app.all("*", async (req, res, next) => {
+module.exports = async (req, res) => {
   try {
     await connectToDatabase();
-    next();
-  } catch (error) {
-    console.error("Error connecting to database:", error);
-    res.status(500).send("Error connecting to the database");
-  }
-});
 
-// Export for Vercel
-module.exports = (req, res) => app(req, res);
+    if (req.method === "GET") {
+      // Handle GET request
+      const communications = await companiesRoutes.get();
+      return res.json(communications);
+    } else if (req.method === "POST") {
+      // Handle POST request
+      const newCompany = await companiesRoutes.post(req.body);
+      return res.status(201).json(newCompany);
+    } else if (req.method === "DELETE") {
+      // Handle DELETE request
+      const deletedCompany = await companiesRoutes.delete(req.query.id);
+      return res.status(200).json(deletedCompany);
+    } else {
+      res.status(405).json({ message: "Method Not Allowed" });
+    }
+  } catch (error) {
+    console.error("Error in API:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

@@ -23,7 +23,7 @@ const handleFetch = async (url, options = {}) => {
 
 // Fetch all companies
 export const fetchCompanies = async () => {
-  return await handleFetch("/companies");
+  return await handleFetch("/companies"); // No 'api/' needed here
 };
 
 // Save a new company
@@ -42,7 +42,7 @@ export const deleteCompany = async (id) => {
 
 // Fetch all communications
 export const fetchCommunications = async () => {
-  return await handleFetch("/communications");
+  return await handleFetch("/communications"); // No 'api/' needed here
 };
 
 // Log a new communication
@@ -61,7 +61,7 @@ export const deleteCommunication = async (id) => {
 
 // Fetch all communication methods
 export const fetchMethods = async () => {
-  return await handleFetch("/communication-methods");
+  return await handleFetch("/communication-methods"); // No 'api/' needed here
 };
 
 // Save a new communication method
@@ -90,7 +90,7 @@ export const fetchReportData = async (filters) => {
 // Download a report in a specific format (PDF or CSV)
 export const downloadReport = async (format, filters) => {
   try {
-    const response = await fetch(`${API_URL}/reports/download`, {
+    const response = await fetch(`${API_URL}/reports/download`, { // Correct path
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ format, ...filters }),
