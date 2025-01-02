@@ -1,4 +1,8 @@
-const API_URL = "http://localhost:5000/api";
+// Set API_URL dynamically based on environment
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://cal-app-bknd-smoky.vercel.app/api" // Production backend URL
+    : "http://localhost:5000/api"; // Local backend URL for development
 
 // Helper function to handle fetch requests
 const handleFetch = async (url, options = {}) => {
@@ -47,6 +51,11 @@ export const logCommunication = async (comm) => {
   });
 };
 
+// Delete a communication by ID
+export const deleteCommunication = async (id) => {
+  await handleFetch(`${API_URL}/communications/${id}`, { method: "DELETE" });
+};
+
 // Fetch all communication methods
 export const fetchMethods = async () => {
   return await handleFetch(`${API_URL}/communication-methods`);
@@ -73,12 +82,6 @@ export const fetchReportData = async (filters) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(filters),
   });
-};
-export const deleteCommunication = async (id) => {
-  const res = await fetch(`${API_URL}/communications/${id}`, {
-    method: "DELETE",
-  });
-  if (!res.ok) throw new Error("Failed to delete communication");
 };
 
 // Download a report in a specific format (PDF or CSV)
