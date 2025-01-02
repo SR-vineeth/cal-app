@@ -2,38 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/companies.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "api/communications.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "api/communication-methods.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "api/reports.js",
+        "src": "api/index.js",  
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
-        "src": "/api/companies",
-        "dest": "/api/companies.js"
-      },
-      {
-        "src": "/api/communications",
-        "dest": "/api/communications.js"
-      },
-      {
-        "src": "/api/communicationMethods",
-        "dest": "/api/communicationMethods.js"
-      },
-      {
-        "src": "/api/reports",
-        "dest": "/api/reports.js"
+        "src": "/api/(.*)",
+        "dest": "/api/index.js"
       },
       {
         "src": "/(.*)",
